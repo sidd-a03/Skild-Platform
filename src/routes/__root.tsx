@@ -13,8 +13,9 @@ import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
-import Navbar from '#/componensts/ui/Navbar'
+import Navbar from '#/components/layout/Navbar'
 import { ThemeProvider } from '#/context/theme-provider'
+import Crosshair from '#/components/ui/Crosshair'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -56,31 +57,33 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				</head>
 				<body className="font-sans antialiased wrap-anywhere">
 					<ThemeProvider defaultTheme="system" storageKey="theme">
-            <ClerkProvider>
-              <div id="root-layout">
-                <header>
-                  <div className="frame">
-                    <Navbar />
-                  </div>
-                </header>
+						<ClerkProvider>
+							<div id="root-layout">
+								<header>
+									<div className="frame">
+										<Navbar />
+										<Crosshair />
+										<Crosshair />
+									</div>
+								</header>
 
-                <main>
-                  <div className="frame">{children}</div>
-                </main>
-              </div>
-              <TanStackDevtools
-                config={{
-                  position: "bottom-right",
-                }}
-                plugins={[
-                  {
-                    name: "Tanstack Router",
-                    render: <TanStackRouterDevtoolsPanel />,
-                  },
-                  TanStackQueryDevtools,
-                ]}
-              />
-            </ClerkProvider>						
+								<main>
+									<div className="frame">{children}</div>
+								</main>
+							</div>
+							<TanStackDevtools
+								config={{
+									position: "bottom-right",
+								}}
+								plugins={[
+									{
+										name: "Tanstack Router",
+										render: <TanStackRouterDevtoolsPanel />,
+									},
+									TanStackQueryDevtools,
+								]}
+							/>
+						</ClerkProvider>
 					</ThemeProvider>
 					<Scripts />
 				</body>
