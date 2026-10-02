@@ -13,6 +13,8 @@ import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
+import Navbar from '#/componensts/ui/Navbar'
+import { ThemeProvider } from '#/context/theme-provider'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -29,8 +31,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'Skild - The Registry for Agentic Intelligence',
       },
+      {
+        name: 'description',
+        content: "Discover, publish and operate resuable agen capabilities from a route-driven workspace"
+      }
     ],
     links: [
       {
@@ -44,28 +50,40 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <ClerkProvider>
-          {children}
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-              TanStackQueryDevtools,
-            ]}
-          />
-        </ClerkProvider>
-        <Scripts />
-      </body>
-    </html>
-  )
+			<html lang="en">
+				<head>
+					<HeadContent />
+				</head>
+				<body className="font-sans antialiased wrap-anywhere">
+					<ThemeProvider defaultTheme="system" storageKey="theme">
+            <ClerkProvider>
+              <div id="root-layout">
+                <header>
+                  <div className="frame">
+                    <Navbar />
+                  </div>
+                </header>
+
+                <main>
+                  <div className="frame">{children}</div>
+                </main>
+              </div>
+              <TanStackDevtools
+                config={{
+                  position: "bottom-right",
+                }}
+                plugins={[
+                  {
+                    name: "Tanstack Router",
+                    render: <TanStackRouterDevtoolsPanel />,
+                  },
+                  TanStackQueryDevtools,
+                ]}
+              />
+            </ClerkProvider>						
+					</ThemeProvider>
+					<Scripts />
+				</body>
+			</html>
+		);
 }
