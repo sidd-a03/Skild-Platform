@@ -3,26 +3,27 @@ import { ArrowBigUp, ArrowUpRight, Bookmark, Check, Copy, MessageSquare } from "
 import { useState } from "react";
 
 const SkillCard = ({
-	id,
 	title,
-	slug,
 	description,
 	category,
 	tags,
 	installCommand,
 	createdAt,
-	authorClerkId,
 	authorEmail,
 }: SkillRecord) => {
 
     const [copied, setCopied] = useState<boolean>(false);
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText(installCommand);
-        setCopied(true);
-        setTimeout(() => {
-            setCopied(false);
-        }, 2000);
+    const handleCopy = async () => {
+		try {
+			await navigator.clipboard.writeText(installCommand);
+			setCopied(true);
+			setTimeout(() => {
+				setCopied(false);
+			}, 2000);			
+		} catch {
+			setCopied(false);
+		}
     }
 
 	return (
@@ -53,7 +54,12 @@ const SkillCard = ({
 						<div className="author-copy">
 							<p>Achinta</p>
 
-							{createdAt && <p>{new Date(createdAt).toLocaleDateString()}</p>}
+							{createdAt 
+								? 
+								<p>{new Date(createdAt).toLocaleDateString()}</p> 
+								: 
+								<p>Unknown</p>
+							}
 						</div>
 					</div>
 
